@@ -1,0 +1,5 @@
+XZ Embedded (https://github.com/tukaani-project/xz-embedded, 0BSD), the
+decoder files of linux/lib/xz plus userspace/xz_config.h, unchanged. The
+commit is in VERSION. airImager builds them with every check (CRC32, CRC64,
+SHA-256), every BCJ filter and concatenated streams enabled (see the
+Makefile's XZ_CPPFLAGS).
