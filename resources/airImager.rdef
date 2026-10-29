@@ -9,8 +9,7 @@ resource app_version {
 resource file_types message {
 	"types" = "application/x-xz",
 	"types" = "application/x-cd-image",
-	"types" = "application/x-bfs-image",
-	"types" = "application/octet-stream"
+	"types" = "application/x-bfs-image"
 };
 
 // The pictures of the Image and Drive steps (the Write step shows the

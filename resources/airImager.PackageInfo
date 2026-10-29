@@ -1,5 +1,5 @@
 name airimager
-version 1.0.0-1
+version 1.0.0-2
 architecture x86_64
 summary "Writes air/OS images to USB sticks and SD cards"
 description "airImager writes an air/OS image from airos.works - the ISO for PCs and UEFI ARM64 machines, or the SD card image for the Raspberry Pi 4 and the Cubie A7S - to a USB stick or SD card. It reads the compressed .xz downloads directly (and plain .iso and .img files), checks a download against the .sha256 file next to it, shows the progress, speed and time left, and reads the whole drive back afterwards to verify every byte. The drive air/OS is running from can never be chosen."
