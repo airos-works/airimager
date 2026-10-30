@@ -97,7 +97,7 @@ See [docs/DESIGN.md](docs/DESIGN.md) for how it works and
 <!-- airos-ci:latest-builds:start -->
 ## Latest builds
 
-Built automatically by air/OS CI from commit `d02c436` on 2026-10-30 ([all files](https://github.com/airos-works/airimager/releases/tag/latest)).
+Built automatically by air/OS CI from commit `d31891a` on 2026-10-30 ([all files](https://github.com/airos-works/airimager/releases/tag/latest)).
 
 | Architecture | Package |
 |---|---|
