@@ -89,12 +89,12 @@ See [docs/DESIGN.md](docs/DESIGN.md) for how it works and
 <!-- airos-ci:latest-builds:start -->
 ## Latest builds
 
-Built automatically by air/OS CI from commit `bcee5c7` on 2026-10-30 ([all files](https://github.com/airos-works/airimager/releases/tag/latest)).
+Built automatically by air/OS CI from commit `d02c436` on 2026-10-30 ([all files](https://github.com/airos-works/airimager/releases/tag/latest)).
 
 | Architecture | Package |
 |---|---|
-| arm64 | [airimager-1.0.0-3-arm64.hpkg](https://github.com/airos-works/airimager/releases/download/latest/airimager-1.0.0-3-arm64.hpkg) |
-| x86_64 | [airimager-1.0.0-3-x86_64.hpkg](https://github.com/airos-works/airimager/releases/download/latest/airimager-1.0.0-3-x86_64.hpkg) |
+| arm64 | [airimager-1.0.0-4-arm64.hpkg](https://github.com/airos-works/airimager/releases/download/latest/airimager-1.0.0-4-arm64.hpkg) |
+| x86_64 | [airimager-1.0.0-4-x86_64.hpkg](https://github.com/airos-works/airimager/releases/download/latest/airimager-1.0.0-4-x86_64.hpkg) |
 
 Install with `pkgman install <file>`, or copy the file into `/boot/system/packages`. Haiku SDK: x86_64 hrev60207-2114-g2646c1fb83, arm64 hrev60207-2115-g8e97a85464.
 <!-- airos-ci:latest-builds:end -->
