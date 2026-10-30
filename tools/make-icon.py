@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate airImager's vector icons (HVIF) straight from code.
+"""Generate airImager's vector icons (HVIF) from native artwork and code.
 
 Usage: make-icon.py [--preview] OUTPUT_DIR
 
@@ -71,90 +71,77 @@ class Icon:
         return {'styles': self.styles, 'paths': self.paths, 'shapes': self.shapes}
 
 
-def usb_stick(icon, dx=0.0, dy=0.0, scale=1.0):
-    """A USB stick standing upright: a metal plug on top, a blue body."""
-    def p(x, y):
-        return (dx + x * scale, dy + y * scale)
-
-    def rect(style, l, t, r, b, radius, detail=False):
-        (l, t), (r, b) = p(l, t), p(r, b)
-        icon.rounded(style, l, t, r, b, radius * scale, detail)
-
-    outline = icon.solid('1b2430')
-    metal = icon.linear(p(20, 4), p(44, 4), ['dfe5ec', 'ffffff', 'a9b3bf', '7d8896'])
-    hole = icon.solid('3a4552')
-    body = icon.linear(p(14, 22), p(50, 60), ['5aa9ff', '2f6fd6', '1d4a9e'])
-    body_light = icon.linear(p(14, 22), p(14, 34), ['8cc6ff', '3d7fe0'])
-    label = icon.linear(p(22, 36), p(42, 52), ['f4f8fd', 'c9d6e6'])
-    light = icon.solid('7dffb2')
-
-    rect(outline, 20, 3, 44, 25, 2)
-    rect(metal, 21.5, 4.5, 42.5, 24, 1.2)
-    rect(hole, 25, 9, 30, 13, 0.6, detail=True)
-    rect(hole, 34, 9, 39, 13, 0.6, detail=True)
-    rect(outline, 13, 20, 51, 61, 6)
-    rect(body, 14.5, 21.5, 49.5, 59.5, 4.8)
-    rect(body_light, 14.5, 21.5, 49.5, 30, 4.8, detail=True)
-    rect(label, 21, 34, 43, 52, 2.5, detail=True)
-    cx, cy = p(44.5, 26.5)
-    icon.ellipse(light, cx, cy, 1.6 * scale, 1.6 * scale, detail=True)
-
-
 def arrow(icon, cx, top, bottom, half_width, head):
-    outline = icon.solid('0f3b23')
-    fill = icon.linear((cx, top), (cx, bottom), ['b6ffcf', '35d07f', '13924e'])
+    """A flat green overlay stays distinct even in Tracker's 16 px icon."""
+    outline = icon.solid('162c0c')
+    fill = icon.linear((cx - half_width, top), (cx + half_width, bottom),
+                       ['d5ed9c', '83b844', '4e8527'])
+    light = icon.solid('ecf8cf')
     stem = half_width * 0.48
 
     def points(grow):
         w, s = half_width + grow, stem + grow
         return [
             (cx - s, top - grow), (cx + s, top - grow),
-            (cx + s, bottom - head), (cx + w, bottom - head),
-            (cx, bottom + grow * 1.6),
-            (cx - w, bottom - head), (cx - s, bottom - head),
+            (cx + s, bottom - head - grow), (cx + w, bottom - head - grow),
+            (cx + w, bottom - head + 1), (cx, bottom + grow * 1.4),
+            (cx - w, bottom - head + 1), (cx - w, bottom - head - grow),
+            (cx - s, bottom - head - grow),
         ]
 
-    icon.shape(outline, points(1.5))
+    icon.shape(outline, points(2))
     icon.shape(fill, points(0))
+    icon.shape(light, [(cx - stem, top), (cx + stem, top),
+                      (cx + stem, top + 1.5), (cx - stem, top + 1.5)], detail=True)
 
 
 def app_icon():
-    icon = Icon()
-    usb_stick(icon, dx=-4, dy=2, scale=0.95)
-    arrow(icon, 47, 18, 47, 12, 11)
+    icon = drive_icon()
+    arrow(icon, 48, 28, 58, 11, 11)
     return icon
 
 
 def drive_icon():
+    # The native airOS/Haiku USB drive, including its original shading and
+    # transforms. Keep a local source so regeneration needs no Haiku checkout.
+    source = Path(__file__).resolve().parent / 'artwork' / 'usb-drive.hvif'
+    data = hvif.decode(source.read_bytes())
     icon = Icon()
-    usb_stick(icon)
+    icon.styles, icon.paths, icon.shapes = (data['styles'], data['paths'],
+                                          data['shapes'])
     return icon
 
 
 def image_icon():
     icon = Icon()
-    outline = icon.solid('2b3440')
-    page = icon.linear((10, 4), (50, 60), ['ffffff', 'e9eef4', 'cfd8e3'])
-    fold = icon.linear((40, 4), (50, 14), ['f7f9fc', 'b7c3d1'])
-    disc = icon.radial((32, 38), 16, [(0.0, 'f3f5f8'), (0.35, 'c6d0dc'),
-                                      (0.6, 'a3e0ff'), (0.8, 'd6b8ff'),
-                                      (1.0, '9aa7b8')])
-    hub = icon.solid('ffffff')
-    hole = icon.solid('2b3440')
-    gleam = icon.solid('ffffff', 170)
+    ink = icon.solid('161616')
+    shadow = icon.solid('000000', 35)
+    page = icon.linear((10, 6), (44, 54), ['ffffff', 'e1e1e1'])
+    edge = icon.solid('999999')
+    fold = icon.linear((35, 12), (44, 24), ['ffffff', 'bcbcbc'])
+    disc = icon.linear((17, 24), (41, 49), ['fafafa', 'c8dce5', '809eaf'])
+    hub = icon.solid('f3f5f6')
+    band = icon.solid('ffffff', 150)
 
-    icon.shape(outline, [(8, 2), (42, 2), (54, 14), (54, 62), (8, 62)])
-    icon.shape(page, [(10, 4), (41, 4), (52, 15), (52, 60), (10, 60)])
-    icon.shape(fold, [(41, 4), (52, 15), (41, 15)], detail=True)
-    icon.ellipse(outline, 31, 38, 17.5, 17.5)
-    icon.ellipse(disc, 31, 38, 16, 16)
-    icon.ellipse(hub, 31, 38, 5.5, 5.5)
-    icon.ellipse(hole, 31, 38, 2.4, 2.4)
-    icon.shape(gleam, [
-        ((20, 33), (20, 33), (22, 28)),
-        ((28, 24), (25, 25), (28, 24)),
-        ((27, 27), (27, 27), (23, 30)),
-    ], detail=True)
+    icon.shape(shadow, [(8, 49), (46, 59), (61, 55), (22, 44)])
+    icon.shape(ink, [(7, 3), (36, 10), (49, 25), (49, 59), (7, 49)])
+    icon.shape(edge, [(46, 25), (47, 25), (47, 56), (9, 47), (9, 45)])
+    icon.shape(page, [(9, 5.5), (34, 11.5), (46, 25), (46, 55), (9, 46)])
+    icon.shape(edge, [(34, 12), (46, 25), (34, 22)])
+    icon.shape(fold, [(36, 14), (44, 23), (36, 21)])
+    # A disc on the page, with the same gentle slant as the paper.
+    start = len(icon.paths)
+    icon.ellipse(ink, 28, 34, 15, 15)
+    icon.ellipse(disc, 28, 34, 13, 13)
+    icon.shape(band, [(28, 34), (17, 27), (23, 22), (28, 34),
+                      (39, 41), (33, 46)], detail=True)
+    icon.ellipse(ink, 28, 34, 4.5, 4.5)
+    icon.ellipse(hub, 28, 34, 3.3, 3.3)
+    icon.ellipse(ink, 28, 34, 1.8, 1.8)
+    for path in icon.paths[start:]:
+        path['points'] = [tuple((x, y + (x - 28) * 0.24 + 1)
+                               for x, y in hvif.normalize_point(point))
+                          for point in path['points']]
     return icon
 
 

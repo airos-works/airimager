@@ -62,6 +62,14 @@ tools/build-cross.sh x86_64      # or arm64; build-<arch>/airImager
 make check-host                  # the engine tests on Linux
 ```
 
+The application icon and the three step illustrations use native HVIF vectors.
+Their sources are `tools/make-icon.py` and the native USB drive artwork in
+`tools/artwork/usb-drive.hvif`; run `make icon` to regenerate all three
+assets (the Write step shares the application icon). For PNG previews, run
+`python3 tools/make-icon.py --preview build-host/icon-preview` with Pillow
+installed. The artwork follows [Haiku's icon guidelines](https://www.haiku-os.org/development/icon-guidelines/)
+for perspective, dark silhouettes, restrained highlights and upper-left lighting.
+
 The air/OS build server builds the x86_64 and arm64 packages on every push
 to `main` (airos-ci `apps/build-app-packages.sh`, `build_airimager`), and every
 air/OS image (x86_64, ARM64 UEFI, Raspberry Pi 4 and Cubie A7S) includes
@@ -102,3 +110,7 @@ Install with `pkgman install <file>`, or copy the file into `/boot/system/packag
 ## Licence
 
 MIT (see `LICENSE`). XZ Embedded is 0BSD (`third_party/xz-embedded/COPYING`).
+The USB drive artwork is from Haiku's USB disk driver (`kDeviceIcon` in
+`src/add-ons/kernel/drivers/disk/usb/usb_disk/icons.h`), used under the MIT
+license. The Drive illustration retains it, and the application/Write icon
+adds a green arrow.

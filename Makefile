@@ -43,7 +43,8 @@ LIBS = -lbe -ltracker
 
 all: $(BUILD)/airImager
 
-$(BUILD)/airImager.rsrc: resources/airImager.rdef resources/airImager.hvif
+$(BUILD)/airImager.rsrc: resources/airImager.rdef resources/airImager.hvif \
+		resources/image.hvif resources/drive.hvif
 	mkdir -p $(BUILD)
 	$(RC) -I resources -o $@ resources/airImager.rdef
 
@@ -81,8 +82,7 @@ package:
 
 # The vector icon is generated from code (tools/make-icon.py).
 icon:
-	python3 tools/make-icon.py resources/airImager.hvif \
-		build-host/airImager-icon.png
+	python3 tools/make-icon.py resources
 
 clean:
 	rm -rf build-haiku build-host build-cross build-x86_64 build-arm64

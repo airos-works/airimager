@@ -101,7 +101,9 @@ IconView::Draw(BRect updateRect)
 		return;
 	SetDrawingMode(B_OP_ALPHA);
 	if (fDimmed) {
-		SetHighColor(0, 0, 0, 90);
+		// Keep the illustration legible while the disabled button conveys
+		// that this step is not yet available.
+		SetHighColor(0, 0, 0, 170);
 		SetBlendingMode(B_CONSTANT_ALPHA, B_ALPHA_COMPOSITE);
 	} else
 		SetBlendingMode(B_PIXEL_ALPHA, B_ALPHA_COMPOSITE);
