@@ -253,12 +253,13 @@ FlushDriveCache(int fd, std::string& error)
 	if (ioctl(fd, B_FLUSH_DRIVE_CACHE, NULL, 0) == 0)
 		return true;
 	// Drivers without a cache of their own (or without the ioctl) are done
-	// once fsync() returned. usb_disk answers B_NOT_SUPPORTED for card
+	// once fsync() returned. usb_disk answers B_UNSUPPORTED (not
+	// B_NOT_SUPPORTED, though both read "Operation not supported") for card
 	// readers and sticks that reject SYNCHRONIZE CACHE; the read-back that
 	// follows still checks every byte.
-	if (errno == B_DEV_INVALID_IOCTL || errno == B_NOT_SUPPORTED
-		|| errno == ENOTSUP || errno == B_BAD_VALUE || errno == EINVAL
-		|| errno == ENOSYS) {
+	if (errno == B_DEV_INVALID_IOCTL || errno == B_UNSUPPORTED
+		|| errno == B_NOT_SUPPORTED || errno == ENOTSUP
+		|| errno == B_BAD_VALUE || errno == EINVAL || errno == ENOSYS) {
 		return true;
 	}
 	error = std::string("Could not flush the drive's cache: ")
