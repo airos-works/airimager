@@ -53,7 +53,9 @@ xz): streaming 119 MiB/s, parallel 381 MiB/s; `xz -dc -T1` 277 MiB/s.
    hashes each with XXH64.
 2. The job's thread writes them in order with `pwrite()`. The last chunk is
    zero-padded to a whole sector (`B_GET_GEOMETRY`), past the image's end.
-3. `fsync()`, then `B_FLUSH_DRIVE_CACHE` (drivers without it are fine).
+3. `fsync()`, then `B_FLUSH_DRIVE_CACHE`. Drivers without it are fine, and so
+   are USB card readers and sticks that reject SYNCHRONIZE CACHE (usb_disk
+   answers `B_NOT_SUPPORTED`): the read-back still checks every byte.
 4. Every chunk is read back (sector-rounded) and hashed; the first chunk whose
    hash differs fails the job with its offset.
 
