@@ -1,10 +1,10 @@
-name: "Report a problem with airImager"
-description: "Something in airImager does not work as expected on airOS."
+name: "Report a problem with AirImager"
+description: "Something in AirImager does not work as expected on airOS."
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to report a problem with airImager on airOS. A short, specific report is the most useful: what you did, what happened and what you expected.
+        Thanks for taking the time to report a problem with AirImager on airOS. A short, specific report is the most useful: what you did, what happened and what you expected.
 
         Please [search the existing issues](https://github.com/airos-works/airimager/issues?q=is%3Aissue) first, and leave out passwords, keys and personal details, including in logs and screenshots.
   - type: textarea
@@ -56,7 +56,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: "airImager version"
+      label: "AirImager version"
       description: From the app's About window, or the package file name (for example `name-1.2.0-3-x86_64.hpkg`). Say if it came with the airOS image.
     validations:
       required: false
